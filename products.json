@@ -1,15 +1,15 @@
 {
   "products": [
     {
-      "barcode": "869063201827",
-      "name": "Türk Kahvesi",
+      "barcode": "8690632041827",
+      "name": "Toz Kahve",
       "brand": "Nescafe",
       "category": "Gıda",
       "price": 15.00,
       "quantity": "10 gram"
     },
     {
-      "barcode": "401500009090",
+      "barcode": "4015000090940",
       "name": "Stick Yapıştırıcı",
       "brand": "Pritt",
       "category": "Kırtasiye",
@@ -17,7 +17,7 @@
       "quantity": "43 gram"
     },
     {
-      "barcode": "869085701196",
+      "barcode": "8690857011964",
       "name": "10 Numara Zımba Teli",
       "brand": "3A",
       "category": "Kırtasiye",
@@ -39,14 +39,6 @@
       "category": "Temizlik",
       "price": 89.90,
       "quantity": "900 ml"
-    },
-    {
-      "barcode": "8690321010010",
-      "name": "Diş Macunu",
-      "brand": "Colgate",
-      "category": "Kozmetik",
-      "price": 45.00,
-      "quantity": "75 ml"
     }
   ]
 }
