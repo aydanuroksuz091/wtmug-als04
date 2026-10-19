@@ -16,7 +16,6 @@
   </header>
 
   <main class="container">
-    <!-- Sekmeler -->
     <nav class="tabs">
       <button class="tab active" data-tab="single">Tekli Okut</button>
       <button class="tab" data-tab="bulk">Toplu Okut</button>
@@ -78,7 +77,8 @@
         </div>
         <button id="checkout" class="btn success">💳 Ödemeye Geç</button>
         <button id="clear-cart" class="btn danger">🗑️ Sepeti Temizle</button>
-        <button class="btn secondary" onclick="document.querySelector('[data-tab=\'bulk\']').click()">🔙 Alışverişe Devam Et</button>
+        <!-- HATA BURADAYDI: Tırnak işaretlerini düzelttim -->
+        <button id="continue-shopping" class="btn secondary">🔙 Alışverişe Devam Et</button>
       </div>
     </section>
   </main>
