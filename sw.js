@@ -1,7 +1,7 @@
 /* =========================================================
    MARKETİM PWA — Barkod Okuyucu (Flaş Destekli)
    ========================================================= */
-const CACHE_NAME = "marketim-v2";
+const CACHE_NAME = "marketim-v9";
 const state = {
   products: [],
   cart: [],          // { barcode, name, price, qty }
