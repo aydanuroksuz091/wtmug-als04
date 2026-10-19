@@ -1,5 +1,5 @@
 /* =========================================================
-   MARKETİM PWA — Neon & Siberpunk Tasarım + Manuel Giriş
+   MARKETİM PWA — Neon & Siberpunk Tasarım + Manuel Giriş Düzeltmesi
    ========================================================= */
 
 * { 
@@ -162,7 +162,7 @@ body {
   box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
 }
 
-/* MANUEL GİRİŞ ALANI TASARIMI */
+/* MANUEL GİRİŞ ALANI TASARIMI (DÜZELTİLDİ) */
 .manual-entry {
   display: flex;
   gap: 8px;
@@ -179,6 +179,10 @@ body {
   font-size: 1rem;
   outline: none;
   transition: all 0.3s;
+  /* Dokunmatik ve klavye ayarları eklendi */
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
 }
 
 .manual-entry input:focus {
