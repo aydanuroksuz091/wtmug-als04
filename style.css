@@ -1,5 +1,5 @@
 /* =========================================================
-   MARKETİM PWA — Neon & Glassmorphism (Havalı) Tasarım
+   MARKETİM PWA — Tam Neon & Siberpunk Tasarım
    ========================================================= */
 
 * { 
@@ -7,85 +7,78 @@
   margin: 0; 
   padding: 0; 
   -webkit-tap-highlight-color: transparent;
-  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 :root {
-  --bg-dark: #0f172a; /* Koyu Uzay Mavisi/Siyahı */
-  --bg-panel: rgba(30, 41, 59, 0.7); /* Buzlu cam paneli */
-  --primary: #00e676; /* Neon Yeşil */
-  --primary-glow: rgba(0, 230, 118, 0.4);
-  --secondary: #00b0ff; /* Neon Mavi */
-  --danger: #ff1744; /* Neon Kırmızı */
-  --text-light: #f8fafc;
-  --text-dim: #94a3b8;
-  --border-glass: rgba(255, 255, 255, 0.1);
+  --bg-dark: #050505; /* Tam siyah */
+  --primary: #00ff88; /* Daha parlak neon yeşil */
+  --primary-dark: #00cc6a;
+  --secondary: #ff00ff; /* Neon pembe/mor (Siberpunk için) */
+  --danger: #ff0055; 
+  --text-light: #ffffff;
+  --text-dim: #a0a0a0;
+  --glass-bg: rgba(20, 20, 20, 0.6); /* Koyu buzlu cam */
+  --glass-border: rgba(0, 255, 136, 0.3);
 }
 
 body {
   background-color: var(--bg-dark);
-  /* Arka planda hafif bir renk geçişi (mesh gradient) */
+  /* Arka plan neon ışıkları */
   background-image: 
-    radial-gradient(at 0% 0%, rgba(0, 230, 118, 0.15) 0px, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(0, 176, 255, 0.15) 0px, transparent 50%);
+    radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 40%);
   background-attachment: fixed;
   color: var(--text-light);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   padding-bottom: env(safe-area-inset-bottom);
-  line-height: 1.5;
 }
 
 /* ÜST BAŞLIK */
 .app-header {
   padding: 24px 16px calc(24px + env(safe-area-inset-top));
   text-align: center;
-  position: relative;
-  z-index: 10;
 }
 
 .app-header h1 { 
-  font-size: 2rem; 
+  font-size: 2.2rem; 
   font-weight: 900;
-  letter-spacing: 1px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px var(--primary-glow));
+  letter-spacing: 2px;
+  color: #fff;
+  text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary), 0 0 40px var(--primary);
 }
 
 .subtitle { 
   font-size: 0.85rem; 
-  color: var(--text-dim); 
+  color: var(--primary); 
   margin-top: 4px; 
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   text-transform: uppercase;
+  text-shadow: 0 0 5px var(--primary);
 }
 
-/* ANA İÇERİK KAPSAYICI */
+/* ANA KAPSAYICI */
 .container { 
   flex: 1; 
   padding: 0 16px 24px 16px; 
   max-width: 600px; 
   margin: 0 auto; 
   width: 100%; 
-  position: relative;
-  z-index: 10;
 }
 
-/* SEKMELER (Buzlu Cam) */
+/* SEKMELER */
 .tabs { 
   display: flex; 
   gap: 8px; 
   margin-bottom: 24px; 
-  background: var(--bg-panel);
+  background: var(--glass-bg);
   padding: 6px;
   border-radius: 16px;
-  border: 1px solid var(--border-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .tab {
@@ -96,24 +89,23 @@ body {
   background: transparent; 
   color: var(--text-dim);
   font-weight: 700; 
-  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s;
 }
 
 .tab.active { 
-  background: rgba(0, 230, 118, 0.15); 
+  background: rgba(0, 255, 136, 0.1); 
   color: var(--primary); 
-  border: 1px solid rgba(0, 230, 118, 0.3);
-  box-shadow: inset 0 0 12px var(--primary-glow);
+  border: 1px solid var(--primary);
+  box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.2), 0 0 10px rgba(0, 255, 136, 0.2);
 }
 
 /* SEKME İÇERİKLERİ */
-.tab-content { display: none; animation: fadeInUp 0.4s ease-out; }
+.tab-content { display: none; animation: fadeIn 0.4s ease-out; }
 .tab-content.active { display: block; }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(15px); }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -123,44 +115,38 @@ body {
   width: 100%; 
   aspect-ratio: 4/3;
   background: #000; 
-  border-radius: 24px; 
+  border-radius: 20px; 
   overflow: hidden;
   margin-bottom: 20px;
-  border: 2px solid var(--border-glass);
-  box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 20px rgba(0,0,0,0.8);
+  border: 2px solid var(--primary);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
 }
 
-.scanner-box video { 
-  width: 100%; 
-  height: 100%; 
-  object-fit: cover; 
-}
+.scanner-box video { width: 100%; height: 100%; object-fit: cover; }
 
-/* Tarama Çerçevesi ve Lazer */
 .scan-overlay {
   position: absolute; 
   inset: 15%;
-  border: 2px solid rgba(0, 230, 118, 0.3); 
-  border-radius: 16px;
+  border: 1px solid rgba(0, 255, 136, 0.5); 
+  border-radius: 12px;
   pointer-events: none;
-  box-shadow: 0 0 20px rgba(0, 230, 118, 0.1) inset;
 }
 
 .scan-line {
   position: absolute; 
-  left: 5%; 
-  right: 5%; 
-  height: 2px;
+  left: 0; 
+  right: 0; 
+  height: 3px;
   background: var(--primary); 
   box-shadow: 0 0 15px var(--primary), 0 0 30px var(--primary);
-  animation: scan 2s ease-in-out infinite;
+  animation: scan 2s linear infinite;
 }
 
 @keyframes scan {
-  0% { top: 5%; opacity: 0; }
+  0% { top: 0%; opacity: 0; }
   10% { opacity: 1; }
   90% { opacity: 1; }
-  100% { top: 95%; opacity: 0; }
+  100% { top: 100%; opacity: 0; }
 }
 
 /* FLAŞ BUTONU */
@@ -168,25 +154,22 @@ body {
   position: absolute; 
   top: 16px; 
   right: 16px;
-  background: rgba(0, 0, 0, 0.5); 
+  background: rgba(0, 0, 0, 0.8); 
   color: var(--text-light); 
-  border: 1px solid var(--border-glass);
-  padding: 10px 16px; 
-  border-radius: 30px; 
-  font-size: 0.9rem;
-  font-weight: 600;
+  border: 1px solid var(--text-dim);
+  padding: 8px 16px; 
+  border-radius: 20px; 
+  font-weight: bold;
   cursor: pointer; 
   z-index: 10;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
 }
 
 .btn-flash.active { 
-  background: rgba(255, 235, 59, 0.2); 
-  color: #ffeb3b; 
-  border-color: #ffeb3b;
-  box-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
-  text-shadow: 0 0 8px rgba(255, 235, 59, 0.8);
+  background: #ffff00; 
+  color: #000; 
+  border-color: #ffff00;
+  box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
 }
 
 /* BUTONLAR */
@@ -194,16 +177,12 @@ body {
   width: 100%; 
   padding: 16px; 
   border: none; 
-  border-radius: 16px;
-  font-size: 1.05rem; 
-  font-weight: 700; 
+  border-radius: 14px;
+  font-size: 1rem; 
+  font-weight: 800; 
   cursor: pointer; 
   margin-bottom: 12px;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -213,188 +192,126 @@ body {
 .btn.primary { 
   background: var(--primary); 
   color: #000; 
-  box-shadow: 0 0 20px var(--primary-glow);
-}
-.btn.primary:hover {
-  box-shadow: 0 0 30px var(--primary-glow);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
 }
 
 .btn.secondary { 
-  background: var(--bg-panel); 
+  background: rgba(255, 255, 255, 0.1); 
   color: var(--text-light);
-  border: 1px solid var(--border-glass);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .btn.success { 
-  background: linear-gradient(135deg, #00e676, #00b0ff); 
+  background: var(--primary); 
   color: #000; 
-  box-shadow: 0 0 20px rgba(0, 176, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
 }
 
 .btn.danger { 
-  background: rgba(255, 23, 68, 0.1); 
+  background: transparent; 
   color: var(--danger); 
-  border: 1px solid rgba(255, 23, 68, 0.3);
+  border: 1px solid var(--danger);
+  box-shadow: inset 0 0 10px rgba(255, 0, 85, 0.1);
 }
 
 .hidden { display: none !important; }
 
-/* ÜRÜN BİLGİ KARTI (Glassmorphism) */
-.info-card {
-  background: var(--bg-panel); 
-  border-radius: 24px; 
-  padding: 24px;
+/* KARTLAR (Buzlu Cam) */
+.info-card, .cart {
+  background: var(--glass-bg); 
+  border-radius: 20px; 
+  padding: 20px;
   margin-top: 20px; 
-  border: 1px solid var(--border-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  animation: popIn 0.3s ease-out;
 }
 
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.info-card h2 { 
+.info-card h2, .cart h2 { 
   font-size: 1.1rem; 
   margin-bottom: 16px; 
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  border-bottom: 1px solid var(--border-glass);
-  padding-bottom: 12px;
+  color: var(--primary);
+  border-bottom: 1px solid rgba(0, 255, 136, 0.3);
+  padding-bottom: 10px;
+  text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
 }
 
 .info-card.error { 
-  background: rgba(255, 23, 68, 0.1); 
+  background: rgba(255, 0, 85, 0.1); 
   color: var(--danger); 
+  border-color: var(--danger);
   text-align: center;
-  border-color: rgba(255, 23, 68, 0.3);
-  box-shadow: 0 0 20px rgba(255, 23, 68, 0.1);
 }
 
 .info-row {
   display: flex; 
   justify-content: space-between;
-  padding: 12px 0; 
+  padding: 10px 0; 
   border-bottom: 1px solid rgba(255,255,255,0.05);
-  font-size: 1rem;
 }
 
-.info-row:last-of-type { border-bottom: none; }
 .info-row span { color: var(--text-dim); }
 .info-row b { color: var(--text-light); }
 
-.info-row.price { 
-  margin-top: 10px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--border-glass);
-  align-items: center;
-}
-
 .info-row.price b { 
   color: var(--primary); 
-  font-size: 1.8rem; 
-  font-weight: 900;
-  text-shadow: 0 0 15px var(--primary-glow);
+  font-size: 1.6rem; 
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
 }
 
-/* SEPET ALANI */
-.cart {
-  background: var(--bg-panel); 
-  border-radius: 24px; 
-  padding: 24px;
-  margin-top: 20px; 
-  border: 1px solid var(--border-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.cart h2 { 
-  font-size: 1.2rem; 
-  margin-bottom: 20px; 
-  color: var(--text-light);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid var(--border-glass);
-  padding-bottom: 12px;
-}
-
+/* SEPET LİSTESİ */
 #cart-list { list-style: none; }
 
 #cart-list li {
   display: flex; 
   justify-content: space-between; 
-  align-items: center;
-  padding: 14px 0; 
+  padding: 12px 0; 
   border-bottom: 1px solid rgba(255,255,255,0.05); 
-  font-size: 0.95rem;
-}
-
-#cart-list li span {
-  color: var(--text-light);
-  font-weight: 500;
 }
 
 #cart-list li b {
   color: var(--secondary);
-  font-weight: 700;
-  text-shadow: 0 0 10px rgba(0, 176, 255, 0.4);
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.4);
 }
 
 #cart-list li.empty { 
   color: var(--text-dim); 
   justify-content: center; 
-  padding: 40px 0;
-  font-style: italic;
+  padding: 30px 0;
   border: none;
 }
 
-/* SEPET TOPLAMI */
 .cart-total {
   display: flex; 
   justify-content: space-between;
-  align-items: center;
-  padding: 20px 0; 
+  padding: 16px 0; 
   margin-top: 12px; 
-  border-top: 2px solid var(--border-glass);
-}
-
-.cart-total span {
-  font-size: 1.1rem;
-  color: var(--text-dim);
-  font-weight: 600;
-  text-transform: uppercase;
+  border-top: 2px solid rgba(255, 255, 255, 0.1);
 }
 
 .cart-total b { 
   color: var(--primary); 
-  font-size: 1.8rem; 
-  font-weight: 900;
-  text-shadow: 0 0 20px var(--primary-glow);
+  font-size: 1.6rem; 
+  text-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
 }
 
 .hint { 
-  font-size: 0.9rem; 
   color: var(--text-dim); 
-  margin-bottom: 20px; 
   text-align: center;
-  background: rgba(255,255,255,0.05);
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px dashed var(--border-glass);
+  margin-bottom: 16px;
+  font-size: 0.9rem;
 }
 
-/* ALT BİLGİ */
 .app-footer {
   text-align: center; 
-  padding: 24px; 
-  color: var(--text-dim); 
-  font-size: 0.75rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  padding: 20px; 
+  color: #444; 
+  font-size: 0.8rem;
 }
