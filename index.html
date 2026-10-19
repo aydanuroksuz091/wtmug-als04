@@ -7,7 +7,6 @@
   <title>Marketim Barkod Okuyucu</title>
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
-  <!-- ZXing Barkod Kütüphanesi -->
   <script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
 </head>
 <body>
@@ -21,6 +20,7 @@
     <nav class="tabs">
       <button class="tab active" data-tab="single">Tekli Okut</button>
       <button class="tab" data-tab="bulk">Toplu Okut</button>
+      <button class="tab" data-tab="cart">🛍️ Sepet</button>
     </nav>
 
     <!-- TEKLİ OKUMA -->
@@ -28,6 +28,8 @@
       <div class="scanner-box">
         <video id="video-single" playsinline muted></video>
         <div class="scan-overlay"><div class="scan-line"></div></div>
+        <!-- Flaş Butonu -->
+        <button id="flash-single" class="btn-flash hidden">⚡ Flaş</button>
       </div>
       <button id="start-single" class="btn primary">📷 Kamerayı Aç</button>
       <button id="stop-single" class="btn secondary hidden">Durdur</button>
@@ -41,6 +43,7 @@
         <div class="info-row"><span>Miktar:</span><b id="pi-quantity">-</b></div>
         <div class="info-row price"><span>Fiyat:</span><b id="pi-price">-</b></div>
         <button id="add-to-cart" class="btn success">➕ Sepete Ekle</button>
+        <button id="go-to-cart" class="btn primary hidden">🛍️ Sepete Git</button>
       </div>
       <div id="not-found" class="info-card error hidden">
         ❌ Bu barkod sistemde bulunamadı.
@@ -53,12 +56,17 @@
       <div class="scanner-box">
         <video id="video-bulk" playsinline muted></video>
         <div class="scan-overlay"><div class="scan-line"></div></div>
+        <!-- Flaş Butonu -->
+        <button id="flash-bulk" class="btn-flash hidden">⚡ Flaş</button>
       </div>
       <button id="start-bulk" class="btn primary">📷 Toplu Okumayı Başlat</button>
       <button id="stop-bulk" class="btn secondary hidden">Durdur</button>
+    </section>
 
+    <!-- SEPET SEKME -->
+    <section id="tab-cart" class="tab-content">
       <div class="cart">
-        <h2>🛍️ Sepet</h2>
+        <h2>🛍️ Sepetim</h2>
         <ul id="cart-list"><li class="empty">Sepet boş</li></ul>
         <div class="cart-total">
           <span>Toplam:</span>
@@ -66,6 +74,7 @@
         </div>
         <button id="checkout" class="btn success">💳 Ödemeye Geç</button>
         <button id="clear-cart" class="btn danger">🗑️ Sepeti Temizle</button>
+        <button class="btn secondary" onclick="document.querySelector('[data-tab=\\'bulk\\']').click()">🔙 Alışverişe Devam Et</button>
       </div>
     </section>
   </main>
