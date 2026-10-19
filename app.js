@@ -1,5 +1,5 @@
 /* =========================================================
-   MARKETİM PWA — Barkod Okuyucu
+   MARKETİM PWA — Barkod Okuyucu (Flaş Destekli)
    ========================================================= */
 
 const state = {
@@ -9,6 +9,7 @@ const state = {
   singleReader: null,
   bulkReader: null,
   scanning: false,
+  currentStream: null, // Flaş kontrolü için kamerayı tutacağız
 };
 
 // ---------- Yardımcılar ----------
@@ -24,7 +25,7 @@ async function loadProducts() {
     console.log(`✅ ${state.products.length} ürün yüklendi`);
   } catch (err) {
     console.error("Ürünler yüklenemedi:", err);
-    alert("Ürün veritabanı yüklenemedi. İnternet bağlantınızı kontrol edin.");
+    alert("Ürün veritabanı yüklenemedi.");
   }
 }
 
@@ -39,18 +40,44 @@ document.querySelectorAll(".tab").forEach((tab) => {
     document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
     tab.classList.add("active");
     document.getElementById(`tab-${tab.dataset.tab}`).classList.add("active");
-    stopAllScanning();
+    
+    // Sekme değişince kameraları kapat (Sepet sekmesine geçince kamera açık kalmasın)
+    stopAllScanning(); 
   });
 });
 
+// ---------- FLAŞ KONTROLÜ ----------
+function toggleFlash(btnElement, videoElement) {
+  if (!state.currentStream) return;
+  
+  const track = state.currentStream.getVideoTracks()[0];
+  if (!track) return;
+
+  const capabilities = track.getCapabilities ? track.getCapabilities() : {};
+  
+  if (!capabilities.torch) {
+    alert("Cihazınız flaş kontrolünü desteklemiyor.");
+    return;
+  }
+
+  const isFlashOn = btnElement.classList.contains("active");
+  
+  track.applyConstraints({
+    advanced: [{ torch: !isFlashOn }]
+  }).then(() => {
+    btnElement.classList.toggle("active");
+  }).catch((err) => {
+    console.error("Flaş hatası:", err);
+  });
+}
+
 // ---------- ZXing ile Kamera Başlat ----------
-async function startScanner(videoEl, onResult) {
+async function startScanner(videoEl, flashBtn, onResult) {
   const codeReader = new ZXing.BrowserMultiFormatReader();
   let stream = null;
   let stopped = false;
 
   try {
-    // Arka kamerayı tercih et
     const devices = await navigator.mediaDevices.enumerateDevices();
     const backCam = devices.find((d) => d.kind === "videoinput" && /back|rear|environment/i.test(d.label));
     const deviceId = backCam?.deviceId;
@@ -65,10 +92,18 @@ async function startScanner(videoEl, onResult) {
       audio: false,
     });
 
+    state.currentStream = stream; // Flaş için kaydet
     videoEl.srcObject = stream;
     await videoEl.play();
 
-    // Sürekli decode et
+    // Flaş butonunu göster (eğer cihaz destekliyorsa)
+    const track = stream.getVideoTracks()[0];
+    const caps = track.getCapabilities ? track.getCapabilities() : {};
+    if (caps.torch) {
+      flashBtn.classList.remove("hidden");
+      flashBtn.onclick = () => toggleFlash(flashBtn, videoEl);
+    }
+
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
@@ -94,13 +129,10 @@ async function startScanner(videoEl, onResult) {
           if (text !== state.lastScanned) {
             state.lastScanned = text;
             onResult(text);
-            // Aynı barkodu tekrar okumamak için kısa bekleme
             setTimeout(() => (state.lastScanned = null), 1500);
           }
         }
-      } catch (e) {
-        // Barkod bulunamadı — normal
-      }
+      } catch (e) { /* Barkod bulunamadı */ }
       if (!stopped) requestAnimationFrame(tick);
     };
     tick();
@@ -110,6 +142,9 @@ async function startScanner(videoEl, onResult) {
         stopped = true;
         if (stream) stream.getTracks().forEach((t) => t.stop());
         videoEl.srcObject = null;
+        flashBtn.classList.add("hidden");
+        flashBtn.classList.remove("active");
+        state.currentStream = null;
       },
     };
   } catch (err) {
@@ -126,11 +161,10 @@ async function startSingleScan() {
   $("#product-info").classList.add("hidden");
   $("#not-found").classList.add("hidden");
 
-  state.singleReader = await startScanner($("#video-single"), onSingleResult);
+  state.singleReader = await startScanner($("#video-single"), $("#flash-single"), onSingleResult);
 }
 
 function onSingleResult(barcode) {
-  // Titreşim (destekleniyorsa)
   if (navigator.vibrate) navigator.vibrate(120);
 
   const product = findProduct(barcode);
@@ -144,6 +178,11 @@ function onSingleResult(barcode) {
     $("#pi-price").textContent    = fmt(product.price);
     $("#product-info").classList.remove("hidden");
     $("#not-found").classList.add("hidden");
+    
+    // Sepete Ekle butonunu göster, Sepete Git'i gizle (yeni ürün okutulduğunda)
+    $("#add-to-cart").classList.remove("hidden");
+    $("#go-to-cart").classList.add("hidden");
+    
     stopSingleScan();
   } else {
     $("#not-found").classList.remove("hidden");
@@ -157,32 +196,40 @@ function stopSingleScan() {
   $("#stop-single").classList.add("hidden");
 }
 
-// Sepete ekle
+// Sepete ekle ve "Sepete Git" butonunu göster
 $("#add-to-cart").addEventListener("click", () => {
   const p = state.lastProduct;
   if (!p) return;
   addToCart(p);
   alert(`✅ "${p.name}" sepete eklendi.`);
+  
+  // Eklenince sepete git butonu çıksın
+  $("#add-to-cart").classList.add("hidden");
+  $("#go-to-cart").classList.remove("hidden");
+});
+
+// Sepete Git butonuna basınca sekmeyi değiştir
+$("#go-to-cart").addEventListener("click", () => {
+  document.querySelector('[data-tab="cart"]').click();
 });
 
 // ---------- TOPLU OKUMA ----------
 async function startBulkScan() {
   $("#start-bulk").classList.add("hidden");
   $("#stop-bulk").classList.remove("hidden");
-  state.bulkReader = await startScanner($("#video-bulk"), onBulkResult);
+  state.bulkReader = await startScanner($("#video-bulk"), $("#flash-bulk"), onBulkResult);
 }
 
 function onBulkResult(barcode) {
   if (navigator.vibrate) navigator.vibrate(80);
   const product = findProduct(barcode);
+  const box = $("#video-bulk").parentElement;
+  
   if (product) {
     addToCart(product);
-    // Kısa görsel geri bildirim
-    const box = $("#video-bulk").parentElement;
     box.style.boxShadow = "0 0 0 4px #198754";
     setTimeout(() => (box.style.boxShadow = ""), 300);
   } else {
-    const box = $("#video-bulk").parentElement;
     box.style.boxShadow = "0 0 0 4px #c62828";
     setTimeout(() => (box.style.boxShadow = ""), 300);
   }
@@ -248,7 +295,6 @@ $("#checkout").addEventListener("click", () => {
   }
   const total = state.cart.reduce((s, i) => s + i.price * i.qty, 0);
   alert(`💳 Ödeme ekranına yönlendiriliyorsunuz...\n\nToplam: ${fmt(total)}\nÜrün çeşidi: ${state.cart.length}`);
-  // Gerçek uygulamada ödeme sayfasına yönlendirme yapılır
 });
 
 // ---------- Butonlar ----------
@@ -260,14 +306,15 @@ $("#stop-bulk").addEventListener("click", stopBulkScan);
 // ---------- Service Worker ----------
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").then((reg) => {
-      console.log("✅ SW kayıtlı:", reg.scope);
-    }).catch((err) => console.warn("SW kayıt hatası:", err));
+    navigator.serviceWorker.register("sw.js").catch((err) => console.warn("SW hatası:", err));
   });
 }
 
-// ---------- Başlat ----------
 document.addEventListener("DOMContentLoaded", async () => {
-  await loadProducts();
+  await loadProductNames(); // Fonksiyon adını düzelttim
   renderCart();
 });
+
+async function loadProductNames() {
+  await loadProducts();
+}
