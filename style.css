@@ -1,5 +1,5 @@
 /* =========================================================
-   MARKETİM PWA — Tam Neon & Siberpunk Tasarım
+   MARKETİM PWA — Neon & Siberpunk Tasarım + Manuel Giriş
    ========================================================= */
 
 * { 
@@ -11,20 +11,17 @@
 }
 
 :root {
-  --bg-dark: #050505; /* Tam siyah */
-  --primary: #00ff88; /* Daha parlak neon yeşil */
-  --primary-dark: #00cc6a;
-  --secondary: #ff00ff; /* Neon pembe/mor (Siberpunk için) */
+  --bg-dark: #050505;
+  --primary: #00ff88;
+  --secondary: #ff00ff;
   --danger: #ff0055; 
   --text-light: #ffffff;
   --text-dim: #a0a0a0;
-  --glass-bg: rgba(20, 20, 20, 0.6); /* Koyu buzlu cam */
-  --glass-border: rgba(0, 255, 136, 0.3);
+  --glass-bg: rgba(20, 20, 20, 0.6);
 }
 
 body {
   background-color: var(--bg-dark);
-  /* Arka plan neon ışıkları */
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(0, 255, 136, 0.1) 0%, transparent 40%),
     radial-gradient(circle at 90% 80%, rgba(255, 0, 255, 0.1) 0%, transparent 40%);
@@ -36,7 +33,6 @@ body {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* ÜST BAŞLIK */
 .app-header {
   padding: 24px 16px calc(24px + env(safe-area-inset-top));
   text-align: center;
@@ -59,7 +55,6 @@ body {
   text-shadow: 0 0 5px var(--primary);
 }
 
-/* ANA KAPSAYICI */
 .container { 
   flex: 1; 
   padding: 0 16px 24px 16px; 
@@ -68,7 +63,6 @@ body {
   width: 100%; 
 }
 
-/* SEKMELER */
 .tabs { 
   display: flex; 
   gap: 8px; 
@@ -78,7 +72,6 @@ body {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .tab {
@@ -100,7 +93,6 @@ body {
   box-shadow: inset 0 0 10px rgba(0, 255, 136, 0.2), 0 0 10px rgba(0, 255, 136, 0.2);
 }
 
-/* SEKME İÇERİKLERİ */
 .tab-content { display: none; animation: fadeIn 0.4s ease-out; }
 .tab-content.active { display: block; }
 
@@ -109,7 +101,6 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* KAMERA EKRANI */
 .scanner-box {
   position: relative; 
   width: 100%; 
@@ -149,7 +140,6 @@ body {
   100% { top: 100%; opacity: 0; }
 }
 
-/* FLAŞ BUTONU */
 .btn-flash {
   position: absolute; 
   top: 16px; 
@@ -170,6 +160,41 @@ body {
   color: #000; 
   border-color: #ffff00;
   box-shadow: 0 0 20px rgba(255, 255, 0, 0.6);
+}
+
+/* MANUEL GİRİŞ ALANI TASARIMI */
+.manual-entry {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.manual-entry input {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--text-light);
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+.manual-entry input:focus {
+  border-color: var(--secondary);
+  box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.manual-entry input::placeholder {
+  color: var(--text-dim);
+}
+
+.manual-entry .btn {
+  width: auto;
+  margin-bottom: 0;
+  padding: 14px 20px;
+  white-space: nowrap;
 }
 
 /* BUTONLAR */
@@ -207,6 +232,12 @@ body {
   box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
 }
 
+.btn.info {
+  background: var(--secondary);
+  color: white;
+  box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+}
+
 .btn.danger { 
   background: transparent; 
   color: var(--danger); 
@@ -216,7 +247,6 @@ body {
 
 .hidden { display: none !important; }
 
-/* KARTLAR (Buzlu Cam) */
 .info-card, .cart {
   background: var(--glass-bg); 
   border-radius: 20px; 
@@ -224,7 +254,6 @@ body {
   margin-top: 20px; 
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
   animation: popIn 0.3s ease-out;
 }
@@ -266,7 +295,6 @@ body {
   text-shadow: 0 0 10px rgba(0, 255, 136, 0.6);
 }
 
-/* SEPET LİSTESİ */
 #cart-list { list-style: none; }
 
 #cart-list li {
