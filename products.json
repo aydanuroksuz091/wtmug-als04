@@ -1,0 +1,52 @@
+{
+  "products": [
+    {
+      "barcode": "869063201827",
+      "name": "Türk Kahvesi",
+      "brand": "Nescafe",
+      "category": "Gıda",
+      "price": 15.00,
+      "quantity": "10 gram"
+    },
+    {
+      "barcode": "401500009090",
+      "name": "Stick Yapıştırıcı",
+      "brand": "Pritt",
+      "category": "Kırtasiye",
+      "price": 80.00,
+      "quantity": "43 gram"
+    },
+    {
+      "barcode": "869085701196",
+      "name": "10 Numara Zımba Teli",
+      "brand": "3A",
+      "category": "Kırtasiye",
+      "price": 35.00,
+      "quantity": "1000 adet"
+    },
+    {
+      "barcode": "8690504010012",
+      "name": "Tam Yağlı Süt",
+      "brand": "Sütaş",
+      "category": "Gıda",
+      "price": 32.50,
+      "quantity": "1 Litre"
+    },
+    {
+      "barcode": "8690520010017",
+      "name": "Bulaşık Deterjanı",
+      "brand": "Fairy",
+      "category": "Temizlik",
+      "price": 89.90,
+      "quantity": "900 ml"
+    },
+    {
+      "barcode": "8690321010010",
+      "name": "Diş Macunu",
+      "brand": "Colgate",
+      "category": "Kozmetik",
+      "price": 45.00,
+      "quantity": "75 ml"
+    }
+  ]
+}

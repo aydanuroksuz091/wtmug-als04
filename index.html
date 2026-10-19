@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a7d3e" />
+  <title>Marketim Barkod Okuyucu</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- ZXing Barkod Kütüphanesi -->
+  <script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <h1>🛒 Marketim</h1>
+    <p class="subtitle">Barkod Okuyucu & Sepet</p>
+  </header>
+
+  <main class="container">
+    <!-- Sekmeler -->
+    <nav class="tabs">
+      <button class="tab active" data-tab="single">Tekli Okut</button>
+      <button class="tab" data-tab="bulk">Toplu Okut</button>
+    </nav>
+
+    <!-- TEKLİ OKUMA -->
+    <section id="tab-single" class="tab-content active">
+      <div class="scanner-box">
+        <video id="video-single" playsinline muted></video>
+        <div class="scan-overlay"><div class="scan-line"></div></div>
+      </div>
+      <button id="start-single" class="btn primary">📷 Kamerayı Aç</button>
+      <button id="stop-single" class="btn secondary hidden">Durdur</button>
+
+      <div id="product-info" class="info-card hidden">
+        <h2>Ürün Bilgisi</h2>
+        <div class="info-row"><span>Barkod:</span><b id="pi-barcode">-</b></div>
+        <div class="info-row"><span>İsim:</span><b id="pi-name">-</b></div>
+        <div class="info-row"><span>Marka:</span><b id="pi-brand">-</b></div>
+        <div class="info-row"><span>Kategori:</span><b id="pi-category">-</b></div>
+        <div class="info-row"><span>Miktar:</span><b id="pi-quantity">-</b></div>
+        <div class="info-row price"><span>Fiyat:</span><b id="pi-price">-</b></div>
+        <button id="add-to-cart" class="btn success">➕ Sepete Ekle</button>
+      </div>
+      <div id="not-found" class="info-card error hidden">
+        ❌ Bu barkod sistemde bulunamadı.
+      </div>
+    </section>
+
+    <!-- TOPLU OKUMA -->
+    <section id="tab-bulk" class="tab-content">
+      <p class="hint">Sepetteki tüm ürünleri sırayla okutun. Aynı ürün birden fazla okutulursa adet artar.</p>
+      <div class="scanner-box">
+        <video id="video-bulk" playsinline muted></video>
+        <div class="scan-overlay"><div class="scan-line"></div></div>
+      </div>
+      <button id="start-bulk" class="btn primary">📷 Toplu Okumayı Başlat</button>
+      <button id="stop-bulk" class="btn secondary hidden">Durdur</button>
+
+      <div class="cart">
+        <h2>🛍️ Sepet</h2>
+        <ul id="cart-list"><li class="empty">Sepet boş</li></ul>
+        <div class="cart-total">
+          <span>Toplam:</span>
+          <b id="cart-total">0,00 ₺</b>
+        </div>
+        <button id="checkout" class="btn success">💳 Ödemeye Geç</button>
+        <button id="clear-cart" class="btn danger">🗑️ Sepeti Temizle</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <small>© Marketim — PWA Demo</small>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
